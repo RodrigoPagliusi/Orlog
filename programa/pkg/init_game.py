@@ -1,90 +1,94 @@
 import random
 import types
-import god_favors, players
+from god_favors import *
+from players import Player
 import tkinter as tk
 
 
-langskip = tk.Tk()
+# langskip = tk.Tk()
 
-Hrafn = tk.Frame()
-Hrafn.pack()
+# Hrafn = tk.Frame()
+# Hrafn.pack()
 
-bardagi = tk.Frame()
-bardagi.pack()
+# bardagi = tk.Frame()
+# bardagi.pack()
 
-valhala = tk.Label(text="How many will go to Valhalla today?")
-valhala.pack()
+# valhala = tk.Label(text="How many will go to Valhalla today?")
+# valhala.pack()
 
-beserkers = tk.Entry(width=5)
-beserkers.pack()
+# beserkers = tk.Entry(width=5)
+# beserkers.pack()
 
-skol = tk.Button(text="skol!")
-skol.pack()
+# skol = tk.Button(text="skol!")
+# skol.pack()
 
-
-
-langskip.mainloop()
+# langskip.mainloop()
 
 
+# VALE A PENA FAZER CLASSE DO JOGO, PARA PRESERVAR ALGUMAS VARIÁVEIS E OUTRAS COISAS
 
-player_names = [
-    'Ragnar Lothbrok', 'Ivar the Boneless', 'Eric The Red',
-    'Bjorn Ironside', 'Leif Erikson', 'Lagertha', 'Sigurd Snake in the Eye'
-]
+class Orlog:
+    def __init__(self):
 
-prompts_get_players = [
-    "How many will go to Valhalla? ",
-    "Valhalla won't accept so many! Choose less: ",
-    "Choose an available god! "
-]
+        self.player_names = [
+            'Ragnar Lothbrok', 'Ivar the Boneless', 'Eric The Red',
+            'Bjorn Ironside', 'Leif Erikson', 'Lagertha', 'Sigurd Snake in the Eye',
+            'Ubbe Ragnarsson','Hvitserk Ragnarsson'
+        ]
 
-prompts_choose_gods = [
-    "Which god will aid you in battle? ",
-    "Which god will answer to your prayers? ",
-    "Which god will give you divine gifts? "
-]
+        self.prompts_get_players = [
+            "How many will go to Valhalla? ",
+            "Valhalla demands souls!\n",
+            "Valhalla demands more souls!\n",
+            "Valhalla won't accept stupid people! Say a integer number!\n",
+            "Valhalla won't accept so many!\n",
+        ]
 
-def get_players():
-    number_of_players = int(input(prompts_get_players[0]))
-    while number_of_players > len(player_names):
-        number_of_players = int(input(prompts_get_players[1]))
-    return {
-        player_names.pop(random.randrange(len(player_names))): players.Player()
-        for _ in range(number_of_players)
-    }
+        self.prompts_choose_gods = [
+            "Which god will aid you in battle? ",
+            "Which god will answer to your prayers? ",
+            "Which god will give you divine gifts? ",
+            "Choose an available god! "
+        ]
 
-def choose_gods(players):
-    shuffled_players = list(players.keys())
-    random.shuffle(shuffled_players)
-    for prompt in prompts_choose_gods:
-        for player in shuffled_players:
-            print(player)
-            available_gods = list(god_favors.dict_gods.keys())
-            print(available_gods)
-            chosen_god = input(prompt)
-            while chosen_god not in available_gods:
-                chosen_god = input(prompts_get_players[2])
+        while \
+            not (number_of_players := input(self.prompts_get_players[0])).isdigit() \
+            or int(number_of_players) > len(self.player_names) \
+            or int(number_of_players) <= 2 \
+        :
+            if number_of_players.isdigit():
+                if int(number_of_players) == 0:
+                    print(self.prompts_get_players[1])
+                elif int(number_of_players) == 1:
+                    print(self.prompts_get_players[2])
+                elif int(number_of_players) < 0:
+                    print(self.prompts_get_players[3])
+                else:
+                    print(self.prompts_get_players[4])
+            else:
+                    print(self.prompts_get_players[3])
 
-            players[player].gods_worshipped.append(chosen_god)
-            setattr(players[player],
-                    god_favors.dict_gods[chosen_god].__name__,
-                    types.MethodType(god_favors.dict_gods[chosen_god], players[player])
-                    )
-            god_favors.dict_gods.pop(chosen_god)
+        number_of_players = int(number_of_players)
+        self.players = {
+            (name := self.player_names.pop(random.randrange(len(self.player_names)))): Player(name)
+            for _ in range(number_of_players)
+        }
+
+        print(list(self.players.keys()),'\n')
+        gods_to_choose = dict_gods
+        random.shuffle(shuffled_players := list(self.players.keys()))
+        for prompt in self.prompts_choose_gods[:3]:
+            for player in shuffled_players:
+                print(player)
+                print(available_gods := list(gods_to_choose.keys()))
+                while (chosen_god := input(prompt)) not in available_gods:
+                    chosen_god = input(self.prompts_choose_gods[3])
+                self.players[player].gods_worshipped[chosen_god] = gods_to_choose[chosen_god]
+                gods_to_choose.pop(chosen_god)
+                print('')
 
 
 if __name__ == "__main__":
-    dict_players = get_players()
-    choose_gods(dict_players)
-
-
-
-print(dict_players)
-# Determinar a ordem dos jogadores
-
-
-
-
-# cada jogador começa com 6 dados
-# cada jogador começa com 15 de vida
-# cada jogador escolhe 3 deuses dos 20 disponíveis
+    game_orlog = Orlog()
+    print('')
+# Determinar a ordem dos jogadores, pode ser a mesma da escolha dos deuses para aproveitar.

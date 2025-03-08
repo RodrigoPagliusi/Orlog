@@ -1,4 +1,6 @@
 
+# Vale a pena fazer classe dos deuses, porque eles tem várias coisas em comum
+
 def odins_sacrifice():
     print('sacrifice')
 def bragis_verve():
@@ -20,3 +22,5 @@ dict_gods = {
     'Mimir':mimirs_wisdom,
     'Tyr':tyrs_pledge
 }
+
+print('')

@@ -1,11 +1,12 @@
 from battle_dice import SIDES, roll
 
 class Player:
-    def __init__(self, stones=15, tokens=0, dices=6):
-        self.health_stones = stones
-        self.god_favor_tokens = tokens
-        self.number_of_dices = dices
-        self.gods_worshipped = []
+    def __init__(self, name, health_stones=15, god_favor_tokens=0, number_of_dices=6):
+        self.name = name
+        self.health_stones = health_stones
+        self.god_favor_tokens = god_favor_tokens
+        self.number_of_dices = number_of_dices
+        self.gods_worshipped = {}
 
     def player_rolls(self, rerolls=2):
         """
