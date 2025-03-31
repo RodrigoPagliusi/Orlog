@@ -7,6 +7,7 @@ class Player:
         self.god_favor_tokens = god_favor_tokens
         self.number_of_dices = number_of_dices
         self.gods_worshipped = {}
+        self.dice_roll = []
 
     def player_rolls(self, rerolls=2):
         """
@@ -43,7 +44,7 @@ class Player:
             rerolls -= 1
             print(result)
 
-        return result
+        self.dice_roll = result
 
 if __name__ == '__main__':
     euzebio = Player()
