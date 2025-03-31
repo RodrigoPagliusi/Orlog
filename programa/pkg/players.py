@@ -1,5 +1,18 @@
 from battle_dice import SIDES, roll
 
+# número de vida escolhido
+# número de dados que rolaram roubar
+# número de dados que rolaram flecha
+# level do god favour
+# número de god tokens gasto
+# Número de ataques bloqueados# Dados dos jogadores
+# dano recebido
+# número de dados que rolaram machado
+# Maior número do mesmo tipo de dado
+# Dano causado no oponente
+# número de dados que rolaram capacete
+# # número de dados que rolaram escudo
+
 class Player:
     def __init__(self, name, health_stones=15, god_favor_tokens=0, number_of_dices=6):
         self.name = name
@@ -8,14 +21,18 @@ class Player:
         self.number_of_dices = number_of_dices
         self.gods_worshipped = {}
         self.dice_roll = []
+        self.received_damage = 0
+        self.caused_damage = 0
 
-    def player_rolls(self, rerolls=2):
+    def rolls(self, rerolls=2):
         """
         Simulates rolling dice with a specified number of rerolls.
 
         :param rerolls: Number of times the player can reroll the dice.
         :return: Final result of the dice rolls.
         """
+        print(f"It's {self.name} time to kill!")
+        print("Result of dice roll:")
         result = [roll() for _ in range(self.number_of_dices)]
         print(result)
 

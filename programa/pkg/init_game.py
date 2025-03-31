@@ -32,7 +32,6 @@ class Orlog:
         player_names = [
             'Ragnar Lothbrok', 'Ivar the Boneless', 'Eric The Red',
             'Bjorn Ironside', 'Leif Erikson', 'Lagertha', 'Sigurd Snake in the Eye',
-            'Ubbe Ragnarsson','Hvitserk Ragnarsson'
         ]
 
         prompts_get_players = [
@@ -47,7 +46,7 @@ class Orlog:
             "Which god will aid you in battle? ",
             "Which god will answer to your prayers? ",
             "Which god will give you divine gifts? ",
-            "Choose an available god! "
+            "Choose an available god! Which one? "
         ]
 
         while \
@@ -73,24 +72,25 @@ class Orlog:
             for _ in range(number_of_players)
         ]
 
-        # Talvez só precise do self.order_player e não do self.players
-        print([player.name for player in self.players],'\n')
         random.shuffle(self.players)
         print([player.name for player in self.players],'\n')
-        gods_to_choose = dict_gods
+        gods_to_choose = god_favors_levels.copy()
         for prompt in prompts_choose_gods[:3]:
             for player in self.players:
-                print(player)
+                print(player.name)
                 print(available_gods := list(gods_to_choose.keys()))
-                while (chosen_god := input(prompt)) not in available_gods:
+                chosen_god = input(prompt)
+                while chosen_god not in available_gods:
                     chosen_god = input(prompts_choose_gods[3])
-                self.players[player].gods_worshipped[chosen_god] = gods_to_choose[chosen_god]
+                player.gods_worshipped[chosen_god] = gods_to_choose[chosen_god]
                 gods_to_choose.pop(chosen_god)
                 print('')
 
-    # def roll_phase(self):
+    # GUARDAR DADOS DOS ROUNDS NOS ATTRIBUTOS DOS PLAYERS!!!!
 
+    def roll_phase(self):
 
+        for player in self.players: player.rolls() ; print('')
 
     # def god_favor_phase():
 
@@ -99,6 +99,30 @@ class Orlog:
     # def final_phase():
 
 if __name__ == "__main__":
-    game_orlog = Orlog()
+
+    import sys
+    from io import StringIO
+
+    test_inputs = "\n".join([
+        "7",
+        'Odin', 'Bragi', 'Frigg',
+        'Freya', 'Mimir', 'Tyr',
+        'Skuld','Loki','Thrymr',
+        'Var', 'Heimdall', 'Idun',
+        'Brunhild', 'Freyr','Vidar',
+        'Hel', 'Thor', 'Skadi',
+        'Baldr', 'Ullr', 'Forseti'
+    ]) + "\n"
+    original_stdin = sys.stdin
+    sys.stdin = StringIO(test_inputs)
+
+    game = Orlog()
+
+    sys.stdin = original_stdin
+
+    print('\n')
+
+    game.roll_phase()
+
     print('')
 # Determinar a ordem dos jogadores, pode ser a mesma da escolha dos deuses para aproveitar.

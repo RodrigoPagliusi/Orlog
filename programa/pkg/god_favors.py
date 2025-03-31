@@ -101,6 +101,11 @@ god_favors_levels = {
         'costs':[2,3,4],
         'effect_power':[2,3,6]
         },
+    'Forseti':{
+        'priority':7,
+        'costs':[5,10,15],
+        'effect_power':[6,8,10]
+    }
 }
 
 
@@ -108,17 +113,17 @@ god_favors_levels = {
 
 # FAZER A BATALHA PRIMEIRO E DEPOIS PENSAR COMO ADICIONAR OS GOD FAVOUR.
 # MAS TU JÁ COMEÇOU BEM!!!!!
-# ADICIONAR OS GOD FAVOURS NOS DICTS POR ENQUANTO
 # TEM MUITA INFORMAÇÃO QUE PRECISA ARMAZENAR E PASSAR EM CADA ROUND, TIPO OS DADOS E NÚMERO DE VIDA ESCOLHIDO
 # TU PODE VER TODAS AS HABILIDADES E ANOTAR TUDO!!!!!!
+
+# TU TEM QUE INVENTAR MAIS 1 DEUS PARA SER POSSÍVEL JOGAR COM 7 JOGADORES!!!!!
 
 # número de vida escolhido
 # número de dados que rolaram roubar
 # número de dados que rolaram flecha
 # level do god favour
 # número de god tokens gasto
-# Número de ataques bloqueados
-# Dados dos jogadores
+# Número de ataques bloqueados# Dados dos jogadores
 # dano recebido
 # número de dados que rolaram machado
 # Maior número do mesmo tipo de dado
@@ -220,5 +225,8 @@ def ullrs_aim(level, player, arrow_bipass, target):
     player.dice_roll.remove(arrow_bipass)*god_favors_levels['Ullr']['effect_power'][level-1]
     # Tenho que atacar com 2 flechas a mais, mas o oponente não pode perder o escudo para os ataques dos outros
 
+def forsetis_mediation(level, player, target):
+    player.health_stones += god_favors_levels['Forseti']['effect_power'][level-1]
+    target.health_stones += god_favors_levels['Forseti']['effect_power'][level-1] / 2
 
 print('')
